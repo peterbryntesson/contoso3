@@ -1,0 +1,4 @@
+resources:
+- ./coffee-packaging-monitoring/2110.4
+
+namePrefix: packaging-

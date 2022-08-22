@@ -1,0 +1,3 @@
+resources:
+- ../base
+- ./../../../../../../apps/brewing-boiler-process-handling/1.2

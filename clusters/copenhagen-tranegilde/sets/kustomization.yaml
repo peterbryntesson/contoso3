@@ -1,0 +1,5 @@
+resources:
+- ./brew-bottling-a11
+- ./brew-bottling-b11
+- ./brew-line-a11
+- ./brew-line-b11

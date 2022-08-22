@@ -1,0 +1,11 @@
+resources:
+- ./../../../../../../apps/dummy-app/1.0
+- namespace.yaml
+
+namespace: dummy-app
+
+configMapGenerator:
+- name: configuration-ipaddresses
+  behavior: replace
+  files:
+  - ipaddresses.config.json

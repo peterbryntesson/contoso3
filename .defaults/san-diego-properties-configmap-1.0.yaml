@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: plant-properties
+data:
+  plant.name: san-diego
+  plant.latitude: 32.715736
+  plant.longitdue: -117.161087

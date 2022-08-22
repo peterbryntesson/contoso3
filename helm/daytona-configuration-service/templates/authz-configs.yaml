@@ -1,0 +1,15 @@
+{{ if .Values.app.authz.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app.authz.envoy.envoyConfigmapName }}
+data:
+{{ (.Files.Glob "envoy.yaml").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app.authz.opa.opaConfigmapName }}
+data:
+{{ (.Files.Glob "opa/{policy.rego,rules.json}").AsConfig | indent 2 }}
+{{ end }}

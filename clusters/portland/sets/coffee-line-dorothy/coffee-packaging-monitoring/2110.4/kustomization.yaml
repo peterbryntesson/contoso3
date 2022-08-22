@@ -1,0 +1,3 @@
+resources:
+- ../base
+- ./../../../../../../apps/coffee-packaging-monitoring/1.0

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-service-config
+data:
+  ConfigServiceOptions.yaml: |-
+    use_proxy_mode: false
+    proxy_host: 'http://localhost:5000'
+    test_mode: true
+    clusters_in_scope:
+      - 'portland'
+      - 'portland-line1'
+    git_options:
+      url: 'https://github.com/simonjaeger/contoso2.git'
+      local_repository_path: '/tmp/contoso'
+      mail: 'peter_bryntesson@hotmail.com'
+      user: 'peterbryntesson'
+      branch: 'main'
+      persistence_path: '/tmp/'

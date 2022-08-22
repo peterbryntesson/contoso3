@@ -1,0 +1,4 @@
+resources:
+- ./coffee-grinding-monitoring/2002.10
+
+namePrefix: grinding-

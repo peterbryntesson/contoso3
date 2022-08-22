@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brewing-filtering-monitoring
+  labels:
+    app: brewing-filtering-monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: brewing-filtering-monitoring-module
+  template:
+    metadata:
+      labels:
+        app: brewing-filtering-monitoring-module
+    spec:
+      containers:
+      - name: busybox
+        image: scr.io/library/busybox:latest
+        command:
+        - sleep
+        - "99999"

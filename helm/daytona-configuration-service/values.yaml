@@ -1,0 +1,122 @@
+# -- Labels (key value pairs) to add to all resources
+labels: {}
+
+namespace: daytona-config-service-ns
+imagePullSecrets:
+  - name: regcred
+
+app:
+  # -- Name of the app, base name used by all resources
+  name: daytona-config-service
+  # -- Pod replicas
+  replicaCount: 1
+
+  container:
+    # -- Full image reference to run, including tag
+    image: moonacroottka.azurecr.io/config-service:latest
+    # -- Port the container exposes
+    port: 80
+
+  service:
+    # -- Type of service to put in front of the deployment, if blank no service will be created
+    type:
+    # -- Port exposed from the service
+    port: 80
+
+  # -- Map of environment variables to set in the container. See src/helm/README.md for details.
+  env:
+    ASPNETCORE_URLS: http://0.0.0.0:80
+
+  # -- Map of configMaps to set in the container
+  configMaps:
+    GitOptions:
+      mountPath: /app/Configuration
+      fileName: ConfigServiceOptions.yaml
+      config: |-
+        use_proxy_mode: false
+        proxy_host: 'http://localhost:5000'
+        hosts_in_scope:
+          - 'portland'
+          - 'portland-line1'
+        git_options:
+          url: 'https://github.com/simonjaeger/contoso.git'
+          local_repository_path: '/tmp/contoso'
+          mail: 'peter_bryntesson@hotmail.com'
+          user: 'peterbryntesson'
+          password: 'XI2XN6dCi7TQY2JXu6azyNI/RSITWE5s+7A+hfjewXKFQGTGSC04NwT4njSNYSTqFdcJJed4nyMwZzs5lR3oZH6LvdZhiTbf3xcolW/Tlof/7sVlx/+3y2fvcbIUrEMn'
+          branch: 'main'
+          persistence_path: 'c:\Users\ossiottka\work\iiot-enablement\persistence'
+
+  readinessProbe:
+    # -- Enable or disable the readiness probe
+    enabled: false
+    # -- Port used by the probe to check readiness
+    port: 80
+    # -- URL path used by the probe to check readiness
+    path: /
+    # -- Startup delay before probe begins checking
+    initialDelaySeconds: 5
+    # -- Interval between probe checks
+    periodSeconds: 5
+
+  resources:
+    # -- Enable or disable the resource limits & requests
+    enabled: false
+    # -- CPU request for the container
+    cpuRequest: 50m
+    # -- Memory request for the container
+    memoryRequest: 100Mi
+    # -- CPU limit for the container
+    cpuLimit: 100m
+    # -- Memory limit for the container
+    memoryLimit: 200Mi
+
+  authz:
+    # -- Enable OPA & Envoy sidecars in the pod.
+    enabled: true
+    opa:
+      # -- Which image to deploy OPA sidecar from
+      image: openpolicyagent/opa:latest-envoy
+      # -- OPA log level
+      logLevel: debug
+      diagnosticsPort: 8282
+      ext_authz_grpc_port: 9191
+      opaConfigmapName: opa-config-24
+    envoy:
+      image: envoyproxy/envoy:v1.21-latest
+      port: 8888
+      diagnosticsPort: 8001
+      envoyConfigmapName: envoy-config-2
+
+ingress:
+  # -- Enable ingress
+  enabled: true
+  # -- The className to use for the ingress, leave blank to not set this
+  className: nginx
+  # -- DNS host name to use for the ingress
+  dnsName: demo.80020f15251344a89d02.westeurope.aksapp.io
+
+  # -- Extra annotations to add to the ingress resource
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  # kubernetes.io/ingress.class: azure/application-gateway
+
+  # ingress.paths -- List of path mappings to assign to the ingress
+  # @default -- []
+  paths:
+    # ingress.paths[0].path -- URL path that will be matched
+    - path: /
+      # -- Port on the service, should match app.service.port
+      port: 80
+      # -- Ingress path type, if unsure leave as "Prefix"
+      type: Prefix
+
+  tls:
+    # -- Enable TLS for the given dnsName, the secret used will be formed from the ingress.dnsName field
+    enabled: false
+
+certificate:
+  # -- Enable generation of TLS certificate using cert-manager. Note the cert name and secret will be formed from the ingress.dnsName field
+  enabled: false
+  # -- The cert-manager issuer to use for certificate fulfillment, these should already exist and are not the responsibility of the helm chart
+  issuer: letsencrypt-staging

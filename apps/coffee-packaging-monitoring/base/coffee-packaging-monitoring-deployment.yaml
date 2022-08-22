@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-packaging-monitoring
+  labels:
+    app: coffee-packaging-monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee-packaging-monitoring-module
+  template:
+    metadata:
+      labels:
+        app: coffee-packaging-monitoring-module
+    spec:
+      containers:
+      - name: busybox
+        image: scr.io/library/busybox:latest
+        command:
+        - sleep
+        - "99999"

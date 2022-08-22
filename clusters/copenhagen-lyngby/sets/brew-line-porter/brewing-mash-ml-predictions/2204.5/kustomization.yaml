@@ -1,0 +1,3 @@
+resources:
+- ../base
+- ./../../../../../../apps/brewing-mash-ml-predictions/1.0

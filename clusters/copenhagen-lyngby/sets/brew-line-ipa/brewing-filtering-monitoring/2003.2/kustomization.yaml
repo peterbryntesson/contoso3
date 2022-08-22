@@ -1,0 +1,3 @@
+resources:
+- ../base
+- ./../../../../../../apps/brewing-filtering-monitoring/1.0

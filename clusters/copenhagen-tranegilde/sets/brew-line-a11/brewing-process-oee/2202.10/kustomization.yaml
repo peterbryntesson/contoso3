@@ -1,0 +1,3 @@
+resources:
+- ../base
+- ./../../../../../../apps/brewing-process-oee/1.0

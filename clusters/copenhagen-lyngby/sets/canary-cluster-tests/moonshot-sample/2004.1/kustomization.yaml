@@ -1,0 +1,9 @@
+resources:
+- ../base
+- ./../../../../../../apps/moonshot-sample/1.0
+
+configMapGenerator:
+- name: input-configuration
+  behavior: merge
+  files:
+  - tags=tags-configuration.yaml

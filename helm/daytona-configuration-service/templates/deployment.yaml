@@ -1,0 +1,154 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  labels:
+    {{- range $key, $value := .Values.labels }}
+    {{ $key }}: "{{ $value }}"
+    {{- end }}
+spec:
+  replicas: {{ .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        {{- range $key, $value := $.Values.labels }}
+        {{ $key }}: "{{ $value }}"
+        {{- end }}
+        app: {{ .Values.app.name }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.app.name }}-kubectl
+      automountServiceAccountToken: false
+
+      # TODO: do we need this at all as we control the service? The initContainer makes sure all traffic
+      # is routed to envoy, but we can also just expose only the envoy port in the service
+      {{- if .Values.app.authz.enabled }}
+      initContainers:
+        - name: proxy-init
+          image: openpolicyagent/proxy_init:v7
+          # Configure the iptables bootstrap script to redirect traffic to the
+          # Envoy proxy on port 8888, specify that Envoy will be running as user
+          # 1111, and that we want to exclude port 8282 from the proxy for the
+          # OPA health checks. These values must match up with the configuration
+          # defined below for the "envoy" and "opa" containers.
+          args: ["-p", "{{ .Values.app.authz.envoy.port }}", "-u", "1111", "-w", "{{ .Values.app.authz.opa.diagnosticsPort }}"]
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+            runAsNonRoot: false
+            runAsUser: 0
+      {{- end }}
+
+      containers:
+        - name: {{ .Values.app.name }}
+          image: {{ .Values.app.container.image }}
+
+          ports:
+          - containerPort: {{ .Values.app.container.port }}
+
+          env:
+            {{- range $key, $value := .Values.app.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+
+          {{- if .Values.app.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.app.readinessProbe.port }}
+              path: {{ .Values.app.readinessProbe.path }}
+            initialDelaySeconds: {{ .Values.app.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.app.readinessProbe.periodSeconds }}
+          {{- end }}
+
+          {{- if .Values.app.resources.enabled }}
+          resources:
+            requests:
+              cpu: {{ .Values.app.resources.cpuRequest }}
+              memory: {{ .Values.app.resources.memoryRequest }}
+            limits:
+              cpu: {{ .Values.app.resources.cpuLimit }}
+              memory: {{ .Values.app.resources.memoryLimit }}
+          {{- end }}
+
+          volumeMounts:
+          {{- range $key, $value := .Values.app.configMaps }}
+          - name: {{ $key | lower }}
+            mountPath: "{{ $value.mountPath }}"
+            readOnly: true
+          {{- end }}
+
+        {{- if .Values.app.authz.enabled }}
+        - name: opa
+          image: {{ .Values.app.authz.opa.image}}
+          args:
+            - "run"
+            - "--server"
+            - "--addr=localhost:8181"
+            - "--diagnostic-addr=0.0.0.0:{{ .Values.app.authz.opa.diagnosticsPort }}"
+            - "--log-level={{ .Values.app.authz.opa.logLevel }}"
+            - "--set=plugins.envoy_ext_authz_grpc.addr=:{{ .Values.app.authz.opa.ext_authz_grpc_port }}"
+            - "--set=plugins.envoy_ext_authz_grpc.query=data.envoy.authz.allow"
+            - "--set=decision_logs.console=true"
+            - "--set=status.console=true"
+            - "/rego/policy.rego"
+            - "/rego/rules.json"
+          volumeMounts:
+          - readOnly: true
+            mountPath: /rego
+            name: opa-policy
+          livenessProbe:
+            httpGet:
+              path: /health?plugins
+              scheme: HTTP
+              port: {{ .Values.app.authz.opa.diagnosticsPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health?plugins
+              scheme: HTTP
+              port: {{ .Values.app.authz.opa.diagnosticsPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+        - name: envoy
+          image: {{ .Values.app.authz.envoy.image}}
+          args:
+          - "-c /config/envoy.yaml"
+          - "-l debug"
+          volumeMounts:
+          - readOnly: true
+            mountPath: /config
+            name: envoy-config
+          env:
+          - name: ENVOY_UID
+            value: "1111"
+          ports:
+          - containerPort: {{ .Values.app.authz.envoy.port }}
+        {{- end }}
+
+      volumes:
+      {{- if .Values.app.authz.enabled }}
+        - name: envoy-config
+          configMap:
+            name: {{ .Values.app.authz.envoy.envoyConfigmapName }}
+        - name: opa-policy
+          configMap:
+            name: {{ .Values.app.authz.opa.opaConfigmapName }}
+      {{- end }}
+      {{- range $key, $value := .Values.app.configMaps }}
+        - name: {{ $key | lower }}
+          configMap:
+            name: {{ $key | lower }}
+            items:
+            - key: {{ $value.fileName }}
+              path: {{ $value.fileName }}
+      {{- end }}

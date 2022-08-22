@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configuration-ipaddresses
+  annotations:
+    schema: ipadresses.schema
+data:
+    ipaddresses.config.json: |
+      {
+        "ipaddresses": [
+          "127.0.0.l"
+        ]
+      }

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brewing-process-oee
+  labels:
+    app: brewing-process-oee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: brewing-process-oee-module
+  template:
+    metadata:
+      labels:
+        app: brewing-process-oee-module
+    spec:
+      containers:
+      - name: busybox
+        image: scr.io/library/busybox:latest
+        command:
+        - sleep
+        - "99999"

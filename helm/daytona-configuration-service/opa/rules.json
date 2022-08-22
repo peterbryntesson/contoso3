@@ -1,0 +1,14 @@
+{
+  "authorization_rules": [
+    {
+      "route": "/*",
+      "roles": ["admin"],
+      "method": ["POST", "PUT", "PATCH", "DELETE"]
+    },
+    {
+      "route": "/*",
+      "roles": ["admin", "user"],
+      "method": ["GET"]
+    }
+  ]
+}

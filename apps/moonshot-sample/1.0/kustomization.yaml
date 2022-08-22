@@ -1,0 +1,10 @@
+images:
+- name: scr.io/moonshot-samples-process
+  newTag: latest
+- name: scr.io/moonshot-samples-input
+  newTag: latest
+- name: scr.io/moonshot-samples-output
+  newTag: latest
+  
+resources:
+- ../base

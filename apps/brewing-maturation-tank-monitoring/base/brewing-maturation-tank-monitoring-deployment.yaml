@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brewing-maturation-tank-monitoring
+  labels:
+    app: brewing-maturation-tank-monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: brewing-maturation-tank-monitoring-module
+  template:
+    metadata:
+      labels:
+        app: brewing-maturation-tank-monitoring-module
+    spec:
+      containers:
+      - name: busybox
+        image: scr.io/library/busybox:latest
+        command:
+        - sleep
+        - "99999"

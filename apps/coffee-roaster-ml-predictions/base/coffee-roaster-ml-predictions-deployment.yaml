@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-roaster-ml-predictions
+  labels:
+    app: coffee-roaster-ml-predictions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee-roaster-ml-predictions-module
+  template:
+    metadata:
+      labels:
+        app: coffee-roaster-ml-predictions-module
+    spec:
+      containers:
+      - name: busybox
+        image: scr.io/library/busybox:latest
+        command:
+        - sleep
+        - "99999"

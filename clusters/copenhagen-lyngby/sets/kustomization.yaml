@@ -1,0 +1,6 @@
+resources:
+- ./brew-line-ipa
+- ./brew-line-lager
+- ./brew-line-porter
+- ./brew-bottling
+- ./canary-cluster-tests

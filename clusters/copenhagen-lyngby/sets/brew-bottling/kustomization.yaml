@@ -1,0 +1,4 @@
+resources:
+- ./brewing-bottling-monitoring/2201.1
+
+namePrefix: bottling-

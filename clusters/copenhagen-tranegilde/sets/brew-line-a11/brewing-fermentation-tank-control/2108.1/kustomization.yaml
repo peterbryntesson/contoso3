@@ -1,0 +1,3 @@
+resources:
+- ../base
+- ./../../../../../../apps/brewing-fermentation-tank-control/1.1

@@ -1,0 +1,6 @@
+resources:
+- coffee-drying-monitoring/202205-beta-4
+- coffee-grinding-monitoring/2002.10
+- coffee-packaging-monitoring/2110.4
+- coffee-process-oee/2110.4
+- coffee-roaster-ml-predictions/2104.3

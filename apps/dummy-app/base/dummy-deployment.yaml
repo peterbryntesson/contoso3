@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy-app
+  labels:
+    app: dummy-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy-app-module
+  template:
+    metadata:
+      labels:
+        app: dummy-app-module
+    spec:
+      containers:
+      - name: dummy-app-busybox
+        image: scr.io/library/busybox:latest
+        command:
+        - sleep
+        - "99999"
+        volumeMounts:
+        - mountPath: /configuration
+          name: config
+      volumes:
+      - name: config
+        configMap:
+          name: configuration-ipaddresses

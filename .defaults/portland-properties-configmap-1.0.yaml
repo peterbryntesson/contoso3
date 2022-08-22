@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: plant-properties
+data:
+  plant.name: portland
+  plant.latitude: 45.523064
+  plant.longitdue: -122.676483

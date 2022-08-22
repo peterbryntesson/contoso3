@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-drying-monitoring
+  labels:
+    app: coffee-drying-monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee-drying-monitoring-module
+  template:
+    metadata:
+      labels:
+        app: coffee-drying-monitoring-module
+    spec:
+      containers:
+      - name: busybox
+        image: scr.io/library/busybox:latest
+        command:
+        - sleep
+        - "99999"

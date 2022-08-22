@@ -1,0 +1,9 @@
+resources:
+- ./../../../../../../apps/moonshot-sample/versions/1.0
+- output-connection-string-sealedsecret.yaml
+
+configMapGenerator:
+- name: input-configuration
+  behavior: merge
+  files:
+  - tags=tags-configuration.yaml

@@ -1,0 +1,9 @@
+resources:
+- ./brewing-boiler-process-handling/2205-beta-3
+- ./brewing-fermentation-tank-control/2108.1
+- ./brewing-filtering-monitoring/2108.1
+- ./brewing-mash-ml-predictions/2204.5
+- ./brewing-maturation-tank-monitoring/2001.8
+- ./brewing-process-oee/2202.10
+
+namePrefix: line-b11-

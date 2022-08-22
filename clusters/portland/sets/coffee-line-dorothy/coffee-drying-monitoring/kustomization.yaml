@@ -1,0 +1,4 @@
+resources:
+- ./coffee-drying-monitoring/202205-beta-4
+
+namePrefix: drying-

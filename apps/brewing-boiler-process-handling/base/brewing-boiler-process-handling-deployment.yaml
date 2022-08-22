@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brewing-boiler-process-handling
+  labels:
+    app: brewing-boiler-process-handling
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: brewing-boiler-process-handling-module
+  template:
+    metadata:
+      labels:
+        app: brewing-boiler-process-handling-module
+    spec:
+      containers:
+      - name: busybox
+        image: scr.io/library/busybox:latest
+        command:
+        - sleep
+        - "99999"

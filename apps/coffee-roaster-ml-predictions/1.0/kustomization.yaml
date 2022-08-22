@@ -1,0 +1,6 @@
+images:
+- name: scr.io/library/busybox
+  newTag: "1.0"
+
+resources:
+- ../base
