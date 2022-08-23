@@ -2,3 +2,4 @@ resources:
 - ./mosquitto/v1
 - ./config-service/v1
 - ./sealed-secrets/v0.18.0
+- ./nginx-cloud/v1.3.0

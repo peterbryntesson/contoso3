@@ -10,7 +10,23 @@ spec:
     metadata:
       labels:
         app: config-service
+        v: '1'
     spec:
+      initContainers:
+        - name: proxy-init
+          image: openpolicyagent/proxy_init:v7
+          # Configure the iptables bootstrap script to redirect traffic to the
+          # Envoy proxy on port 8888, specify that Envoy will be running as user
+          # 1111, and that we want to exclude port 8282 from the proxy for the
+          # OPA health checks. These values must match up with the configuration
+          # defined below for the "envoy" and "opa" containers.
+          args: ["-p", "8888", "-u", "1111", "-w", "8282"]
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+            runAsNonRoot: false
+            runAsUser: 0
       containers:
       - name: config-service
         image: moonshot.azurecr.io/daytonaconfigservice:latest
@@ -32,6 +48,38 @@ spec:
         volumeMounts:
         - mountPath: /app/Configuration
           name: config
+      - name: opa
+        image: openpolicyagent/opa:latest-envoy
+        args:
+          - "run"
+          - "--server"
+          - "--addr=localhost:8181"
+          - "--diagnostic-addr=0.0.0.0:8282"
+          - "--log-level=debug"
+          - "--set=plugins.envoy_ext_authz_grpc.addr=:9191"
+          - "--set=plugins.envoy_ext_authz_grpc.query=data.envoy.authz.allow"
+          - "--set=decision_logs.console=true"
+          - "--set=status.console=true"
+          - "/rego/policy.rego"
+          #- "/rego/rules.json"
+        volumeMounts:
+        - readOnly: true
+          mountPath: /rego
+          name: opa-policy
+      - name: envoy
+        image: envoyproxy/envoy:v1.21-latest
+        args:
+        - "-c /config/envoy.yaml"
+        - "-l debug"
+        volumeMounts:
+        - readOnly: true
+          mountPath: /config
+          name: envoy-config
+        env:
+        - name: ENVOY_UID
+          value: "1111"
+        ports:
+        - containerPort: 8888
       imagePullSecrets:
       - name: regcred
       volumes:
@@ -40,4 +88,11 @@ spec:
           name: config-service-config
           items:
           - key: "ConfigServiceOptions.yaml"
-            path: ConfigServiceOptions.yaml
+            path: "ConfigServiceOptions.yaml"
+      - name: envoy-config
+        configMap:
+          name: envoy-config
+      - name: opa-policy
+        configMap:
+          name: opa-config
+

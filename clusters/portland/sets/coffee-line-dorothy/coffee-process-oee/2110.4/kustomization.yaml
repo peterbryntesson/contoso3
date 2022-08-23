@@ -1,3 +1,6 @@
 resources:
 - ../base
 - ./../../../../../../apps/coffee-process-oee/1.0
+
+namespace: dorothy-coffee-process-oee
+

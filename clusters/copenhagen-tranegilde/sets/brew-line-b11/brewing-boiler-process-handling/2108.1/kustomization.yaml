@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/brewing-boiler-process-handling/1.2
+
+namespace: line-b11-brewing-boiler-process-handling

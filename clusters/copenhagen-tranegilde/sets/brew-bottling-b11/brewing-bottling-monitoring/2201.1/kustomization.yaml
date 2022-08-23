@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/brewing-bottling-monitoring/1.1
+
+namespace: bottling-b11

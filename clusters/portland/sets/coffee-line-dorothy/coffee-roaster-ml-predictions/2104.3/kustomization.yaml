@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/coffee-roaster-ml-predictions/1.1
+
+namespace: dorothy-coffee-roaster-ml-predictions

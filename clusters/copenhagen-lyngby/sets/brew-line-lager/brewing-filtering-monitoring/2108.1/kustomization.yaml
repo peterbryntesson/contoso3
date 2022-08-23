@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/brewing-filtering-monitoring/1.0
+
+namespace: line-lager-brewing-filtering-monitoring

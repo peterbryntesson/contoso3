@@ -1,4 +1,2 @@
 resources:
 - namespace.yaml
-
-namespace: dorothy-coffee-grinding-monitoring

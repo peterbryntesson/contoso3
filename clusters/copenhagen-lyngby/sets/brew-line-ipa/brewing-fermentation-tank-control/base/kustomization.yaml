@@ -1,4 +1,2 @@
 resources:
 - namespace.yaml
-
-namespace: line-ipa-brewing-fermentation-tank-control

@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/brewing-boiler-process-handling/2.0-beta-3
+
+namespace: line-ipa-brewing-boiler-process-handling

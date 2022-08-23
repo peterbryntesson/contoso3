@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/brewing-process-oee/1.0
+
+namespace: line-lager-brewing-process-oee

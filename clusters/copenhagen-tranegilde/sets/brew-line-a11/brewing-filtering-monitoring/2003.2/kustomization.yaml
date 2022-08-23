@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/brewing-filtering-monitoring/1.0
+
+namespace: line-a11-brewing-filtering-monitoring

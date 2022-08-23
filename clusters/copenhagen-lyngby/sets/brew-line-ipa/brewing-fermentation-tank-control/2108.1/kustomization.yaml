@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/brewing-fermentation-tank-control/1.1
+
+namespace: line-ipa-brewing-fermentation-tank-control

@@ -5,5 +5,3 @@ resources:
 - ./brewing-mash-ml-predictions/2204.5
 - ./brewing-maturation-tank-monitoring/2001.8
 - ./brewing-process-oee/2202.10
-
-namePrefix: line-ipa-

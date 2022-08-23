@@ -1,4 +1,3 @@
 resources:
 - namespace.yaml
 
-namespace: line-lager-brewing-filtering-monitoring

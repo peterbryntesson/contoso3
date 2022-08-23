@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/coffee-grinding-monitoring/1.0
+
+namespace: dorothy-coffee-grinding-monitoring

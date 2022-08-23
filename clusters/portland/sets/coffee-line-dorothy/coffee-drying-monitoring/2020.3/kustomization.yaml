@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/coffee-drying-monitoring/1.1
+
+namespace: dorothy-coffee-drying-monitoring

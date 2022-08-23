@@ -1,3 +1,5 @@
 resources:
 - ../base
 - ./../../../../../../apps/brewing-maturation-tank-monitoring/1.0
+
+namespace: line-b11-brewing-maturation-tank-monitoring
