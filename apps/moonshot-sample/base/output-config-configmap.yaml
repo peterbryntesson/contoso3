@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: output-config-configmap
+data:
+  config: |
+    {
+      "host": "", 
+      "environment": "",
+      "application": "moonshot-sample",
+      "version": "1.1",
+      "module": "output",
+      "inputTopics": [
+        "moonshot-sample/1.1/process"
+      ]
+    }

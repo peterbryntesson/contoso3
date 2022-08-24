@@ -1,7 +1,7 @@
 resources:
-  - input-configmap.yaml
-  - process-configmap.yaml
-  - output-configmap.yaml
-  - moonshot-input-deployment.yaml
-  - moonshot-process-deployment.yaml
-  - moonshot-output-deployment.yaml
+  - input-config-configmap.yaml
+  - process-config-configmap.yaml
+  - output-config-configmap.yaml
+  - input-deployment.yaml
+  - process-deployment.yaml
+  - output-deployment.yaml

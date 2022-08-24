@@ -1,11 +1,37 @@
 resources:
 - ../base
 - ./../../../../../../apps/moonshot-sample/1.0
+- input-tags-configmap.yaml
 
 namespace: moonshot-sample
 
-configMapGenerator:
-- name: input-configuration
-  behavior: merge
-  files:
-  - tags=tags-configuration.yaml
+patchesJson6902:
+- target:
+    version: v1
+    kind: Deployment
+    name: moonshot-input
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 3
+- target:
+    version: v1
+    kind: Deployment
+    name: moonshot-input
+  patch: |-
+    - op: add
+      path: /metadata/labels/testing
+      value: true
+- target:
+    version: v1
+    kind: Deployment
+    name: moonshot-output
+  patch: |-
+    - op: add
+      path: "/spec/template/spec/containers/-"
+      value:
+        name: sidecar
+        image: busybox
+        args:
+        - sleep
+        - "3600"

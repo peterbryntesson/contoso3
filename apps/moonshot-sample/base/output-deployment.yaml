@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moonshot-output
+  labels:
+    app: moonshot-output
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moonshot-output
+  template:
+    metadata:
+      labels:
+        app: moonshot-output
+    spec:
+      containers:
+      - name: moonshot-output
+        image: scr.io/moonshot-samples-output:1.1
+        env:
+        - name: MQTT_SERVER
+          value: 'mosquitto.mosquitto.svc.cluster.local'
+        - name: MQTT_PORT
+          value: '1883'
+        volumeMounts:
+        - mountPath: /etc/daytona
+          name: daytona-config
+        - mountPath: /etc/daytona/secrets
+          name: daytona-secrets
+      volumes:
+      - name: daytona-config
+        configMap:
+          name: output-config-configmap
+      - name: daytona-secrets
+        secret:
+          secretName: output-connection-string-secret

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: input-config-configmap
+data:
+  config: |
+    {
+      "host": "", 
+      "environment": "",
+      "application": "moonshot-sample",
+      "version": "1.1",
+      "module": "input"
+    }

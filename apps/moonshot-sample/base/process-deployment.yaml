@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moonshot-process
+  labels:
+    app: moonshot-process
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moonshot-process
+  template:
+    metadata:
+      labels:
+        app: moonshot-process
+    spec:
+      containers:
+      - name: moonshot-process
+        image: scr.io/moonshot-samples-process:1.1
+        env:
+        - name: MQTT_SERVER
+          value: 'mosquitto.mosquitto.svc.cluster.local'
+        - name: MQTT_PORT
+          value: '1883'
+        volumeMounts:
+        - mountPath: /etc/daytona
+          name: daytona-config
+      volumes:
+      - name: daytona-config
+        configMap:
+          name: process-config-configmap
