@@ -1,5 +1,4 @@
 resources:
 - ./coffee-line-charlie
 - ./coffee-line-dorothy
-- ./test11/kustomization.yaml
 
