@@ -3,4 +3,3 @@ resources:
 - ./coffee-line-dorothy
 - ./test3/kustomization.yaml
 - ./test4/kustomization.yaml
-- ./test5/kustomization.yaml
