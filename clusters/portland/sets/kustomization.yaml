@@ -3,4 +3,5 @@ resources:
 - ./coffee-line-dorothy
 - ./finnish-coffee/kustomization.yaml
 - ./test4
+- ./test4
 
