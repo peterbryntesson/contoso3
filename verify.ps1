@@ -32,3 +32,4 @@
 (kustomize build ./clusters/copenhagen-lyngby/sets/canary-cluster-tests) | Out-Null;
 (kustomize build ./clusters/copenhagen-lyngby/sets) | Out-Null;
 (kustomize build ./clusters/copenhagen-tranegilde/sets) | Out-Null;
+(kustomize build ./clusters/busybox-stockholm/sets) | Out-Null;

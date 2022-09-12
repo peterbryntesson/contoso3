@@ -1,0 +1,9 @@
+resources:
+- ../base
+- ./../../../../../../apps/dummy-app/1.0
+
+namespace: dummy-app
+
+images:
+- name: scr.io/library/busybox
+  newName: busybox
