@@ -4,6 +4,12 @@ resources:
 
 namespace: stockholm-busybox-line
 
+configMapGenerator:
+- name: configuration-ipaddresses
+  behavior: replace
+  files:
+  - ipaddresses.config.json
+  
 images:
 - name: scr.io/library/busybox
   newName: busybox
