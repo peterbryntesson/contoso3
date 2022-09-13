@@ -2,7 +2,7 @@ resources:
 - ../base
 - ./../../../../../../apps/dummy-app/1.0
 
-namespace: dummy-app
+namespace: stockholm-busybox-line
 
 images:
 - name: scr.io/library/busybox
