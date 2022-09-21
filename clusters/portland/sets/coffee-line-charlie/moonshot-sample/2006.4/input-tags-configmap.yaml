@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: input-tags-configmap
+data:
+  tags-configuration.yaml: |
+    tags:
+    - tag100
+    - tag101
+    - tag136
