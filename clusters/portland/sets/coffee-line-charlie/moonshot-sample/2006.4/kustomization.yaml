@@ -1,0 +1,6 @@
+resources:
+- ../base
+- ./../../../../../../apps/moonshot-sample/2.0
+- input-tags-configmap.yaml
+
+namespace: moonshot-sample
