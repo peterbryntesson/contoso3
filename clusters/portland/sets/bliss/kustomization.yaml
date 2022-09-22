@@ -1,2 +1,2 @@
 resources:
-- ./v4
+- ./inference-api/v4
