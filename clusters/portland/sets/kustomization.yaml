@@ -4,4 +4,5 @@ resources:
 - ./finnish-coffee/kustomization.yaml
 - ./test4
 - ./test4
+- ./bliss
 

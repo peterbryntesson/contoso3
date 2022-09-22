@@ -1,0 +1,5 @@
+resources:
+- ./../../../../../../apps/inference-api/1.0
+
+patchesStrategicMerge:
+- configmap-gpu-1.yaml
